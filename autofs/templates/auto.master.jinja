@@ -1,0 +1,10 @@
+{%- from 'autofs/map.jinja' import autofs with context -%}
+# Managed By Salt
+
++dir:/etc/auto.master.d
++auto.master
+
+{%- for key, value in autofs.iteritems() %}
+{{ value.key }} {{ value.file }} {%- if 'options' in value %} {{ value.options }} {%- endif %}
+{%- endfor %}
+

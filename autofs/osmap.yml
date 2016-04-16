@@ -1,0 +1,5 @@
+Debian:
+  nfs: [ 'nfs-common' ]
+
+RedHat:
+  nfs: [ 'nfs-utils' ]  

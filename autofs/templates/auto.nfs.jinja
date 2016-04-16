@@ -1,0 +1,6 @@
+# Managed by Salt
+{% for item in map %}
+{{ item.mount }} {{ item.options }} {{ item.location }}
+{%- endfor %}
+
+

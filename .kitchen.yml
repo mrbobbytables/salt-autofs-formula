@@ -1,0 +1,70 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: salt_solo
+  formula: autofs
+  salt_install: bootstrap
+  salt_bootstrap_options: -P git v2015.8.4
+  log_level: debug
+  pillars:
+    top.sls:
+      base:
+        '*':
+          - autofs
+
+
+suites:
+  - name: nfs
+    provisioner:
+      pillars-from-files:
+        autofs.sls: pillar.nfs.example
+      state_top:
+        base:
+          '*':
+            - autofs.install
+            - autofs.config
+            - autofs.service
+
+
+platforms: 
+  - name: debian-wheezy
+    driver_config:
+      box: debian/wheezy64
+      box_url: https://atlas.hashicorp.com/debian/wheezy64
+
+  - name: debian-jessie
+    driver_config:
+      box: debian/jessie64
+      box_url: https://atlas.hashicorp.com/debian/jessie64
+
+  - name: ubuntu-precise
+    driver_config:
+      box: ubuntu/precise64
+      box_url: https://atlas.hashicorp.com/ubuntu/precise64
+
+  - name: ubuntu-trusty
+    driver_config:
+      box: ubuntu/trusty64
+      box_url: https://atlas.hashicorp.com/ubuntu/trusty64
+
+  - name: centos-7
+    driver_config:
+      box: centos/7
+      box_url: https://atlas.hashicorp.com/centos/7
+
+  - name: oracle-7
+    driver_config:
+      box: oracle-7
+      box_url: http://cloud.terry.im/vagrant/oraclelinux-7-x86_64.box
+
+  - name: fedora-22
+    driver_config:
+      box: bento/fedora-22
+      box_url: https://atlas.hashicorp.com/bento/fedora-22
+
+  - name: fedora-23
+    driver_config:
+      box: bento/fedora-23
+      box_url: https://atlas.hashicorp.com/bento/fedora-23
