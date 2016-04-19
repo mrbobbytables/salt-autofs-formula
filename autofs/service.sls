@@ -16,9 +16,10 @@ autofs-systemd-enable-service:
       - pkg: autofs
     - watch:
 {% for key, value in autofs.iteritems() %}
-      - file: {{ value.file }}
+  {% for map in value %}
+      - file: {{ map.file }}
+  {% endfor %}
 {% endfor %}
-
 
 {% else %}
 
@@ -31,7 +32,9 @@ autofs-enable-service:
       - pkg: autofs
     - watch:
 {% for key, value in autofs.iteritems() %}
-      - file: {{ value.file }}
+  {% for map in value %}
+      - file: {{ map.file }}
+  {% endfor %}
 {% endfor %}
 
 {% endif %}

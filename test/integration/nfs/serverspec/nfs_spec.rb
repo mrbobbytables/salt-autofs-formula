@@ -43,20 +43,22 @@ end
 
 describe 'SLS: autofs.nfs' do
   describe 'STATE: config-autofs-nfs' do
-    describe file(nfs['file']) do
-      it { should exist }
-      it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
-    end
-  end
-  describe 'RENDER: config-autofs-nfs' do
-    describe file(nfs['file']) do
-      nfs['map'].each do | item |
-        its(:content) { should contain item['mount'] }
-        its(:content) { should contain item['options'] }
-        its(:content) { should contain item['location'] }
+    nfs.each do | config |
+      describe file(config['file']) do
+        it { should exist }
+        it { should be_file }
+        it { should be_owned_by 'root' }
+        it { should be_grouped_into 'root' }
+        it { should be_mode 644 }
+      end
+      describe 'RENDER: config-autofs-nfs' do
+        describe file(config['file']) do
+          config['map'].each do | item |
+            its(:content) { should contain item['mount'] }
+            its(:content) { should contain item['options'] }
+            its(:content) { should contain item['location'] }
+          end
+        end
       end
     end
   end

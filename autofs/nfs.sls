@@ -1,18 +1,22 @@
 {% from 'autofs/map.jinja' import autofs with context %}
 
-{% if autofs.nfs.key != "/-" %}
-create-key-mountpath-{{ autofs.nfs.key }}:
+{% for map in autofs.nfs %}
+  {% if map.key != "/-" %}
+create-key-mountpath-{{ map.key }}:
   file.directory:
-    - name: {{ autofs.nfs.key }}
+    - name: {{ map.key }}
+    - makedirs: True
   {% endif %}
 
-config-autofs-nfs:
+config-autofs-nfs-{{ map.key }}:
   file.managed:
-    - name: {{ autofs.nfs.file }}
+    - name: {{ map.file }}
     - source: salt://autofs/templates/auto.nfs.jinja
     - user: root
     - group: root
     - mode: 644
     - template: jinja
     - context:
-        map: {{ autofs.nfs.map }}
+        map: {{ map.map }}
+
+{% endfor %}

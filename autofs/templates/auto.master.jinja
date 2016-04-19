@@ -5,6 +5,8 @@
 +auto.master
 
 {%- for key, value in autofs.iteritems() %}
-{{ value.key }} {{ value.file }} {%- if 'options' in value %} {{ value.options }} {%- endif %}
+  {%- for map in value %}
+{{ map.key }} {{ map.file }} {%- if 'options' in map %} {{ map.options }} {%- endif %}
+  {%- endfor %}
 {%- endfor %}
 
