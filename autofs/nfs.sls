@@ -20,3 +20,29 @@ config-autofs-nfs-{{ map.key }}:
         map: {{ map.map }}
 
 {% endfor %}
+
+{% if salt['test.provider']('service') == 'systemd' %}
+
+config-autofs-helper:
+  module.wait:
+    - name: service.systemctl_reload
+
+
+autofs-nfs-systemd-restart-service:
+  service.running:
+    - name: autofs.service
+    - watch:
+  {% for map in autofs.nfs %}    
+      - file: config-autofs-nfs-{{ map.key }}
+  {% endfor %}    
+{% else %}
+
+autofs-nfs-restart-service:
+  service.running:
+    - name: autofs
+    - watch:
+  {% for map in autofs.nfs %}    
+      - file: config-autofs-nfs-{{ map.key }}
+  {% endfor %}    
+{% endif %}
+

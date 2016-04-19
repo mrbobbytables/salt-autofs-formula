@@ -24,8 +24,8 @@ suites:
         base:
           '*':
             - autofs.install
-            - autofs.config
             - autofs.service
+            - autofs.config
 
 
 platforms: 
